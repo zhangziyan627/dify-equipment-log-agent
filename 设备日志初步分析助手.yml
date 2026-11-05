@@ -1,0 +1,352 @@
+app:
+  description: 上传设备日志或测试记录，辅助识别异常并生成排查建议。
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: 设备日志初步分析助手
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.20@850efe73fb62bbe7ab2229116086596596297a77174fb86f73e1363b99a24116
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload: {}
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        iteration_id: null
+        loop_id: null
+        sourceType: start
+        targetType: document-extractor
+      id: 1787020679712-source-1787318473672-target
+      selected: false
+      source: '1787020679712'
+      sourceHandle: source
+      target: '1787318473672'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        iteration_id: null
+        loop_id: null
+        sourceType: document-extractor
+        targetType: code
+      id: 1787318473672-source-1789270908233-target
+      source: '1787318473672'
+      sourceHandle: source
+      target: '1789270908233'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        iteration_id: null
+        loop_id: null
+        sourceType: if-else
+        targetType: llm
+      id: 1789268576699-false-llm-target
+      source: '1789268576699'
+      sourceHandle: 'false'
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        iteration_id: null
+        loop_id: null
+        sourceType: if-else
+        targetType: answer
+      id: 1789268576699-true-1789269651587-target
+      source: '1789268576699'
+      sourceHandle: 'true'
+      target: '1789269651587'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        iteration_id: null
+        loop_id: null
+        sourceType: code
+        targetType: if-else
+      id: 1789270908233-source-1789268576699-target
+      source: '1789270908233'
+      sourceHandle: source
+      target: '1789268576699'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        iteration_id: null
+        loop_id: null
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          default: ''
+          hide: false
+          hint: ''
+          label: 上传设备日志
+          max_length: 1
+          options: []
+          placeholder: ''
+          required: false
+          type: file-list
+          variable: equipment_file
+      height: 107
+      id: '1787020679712'
+      position:
+        x: 2636.3711372337157
+        y: -471.4113193463538
+      positionAbsolute:
+        x: 2636.3711372337157
+        y: -471.4113193463538
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        is_array_file: true
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - '1787020679712'
+        - equipment_file
+      height: 103
+      id: '1787318473672'
+      position:
+        x: 2636.3711372337157
+        y: -600.6100007582627
+      positionAbsolute:
+        x: 2636.3711372337157
+        y: -600.6100007582627
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: empty
+            id: 94b967d0-6378-474e-9543-1df619eb8d83
+            value: ''
+            varType: string
+            variable_selector:
+            - '1789270908233'
+            - result
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 122
+      id: '1789268576699'
+      position:
+        x: 2660.278629125369
+        y: -868.5266600741696
+      positionAbsolute:
+        x: 2660.278629125369
+        y: -868.5266600741696
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        answer: 检测到文件为空文档，请重新上传
+        desc: 拦截空文件，不调用大模型以节省Token
+        selected: false
+        title: 直接回复 2
+        type: answer
+        variables: []
+      height: 126
+      id: '1789269651587'
+      position:
+        x: 2995.3902314139036
+        y: -945.9618452764435
+      positionAbsolute:
+        x: 2995.3902314139036
+        y: -945.9618452764435
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        code: "\ndef main(text: list) -> dict:\n    # 判断数组是否为空，或者数组第一个元素是否为空字符串\n\
+          \    if not text or not text[0].strip():\n        return {\"result\": \"\
+          \"}  # 返回空字符串\n    return {\"result\": text[0]}  # 返回正常的日志内容"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 代码执行
+        type: code
+        variables:
+        - value_selector:
+          - '1787318473672'
+          - text
+          value_type: array[string]
+          variable: text
+      height: 50
+      id: '1789270908233'
+      position:
+        x: 2671.852664451269
+        y: -698.4113193463538
+      positionAbsolute:
+        x: 2671.852664451269
+        y: -698.4113193463538
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        answer: '{{#llm.text#}}'
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 100
+      id: answer
+      position:
+        x: 3342.2768847001666
+        y: -868.5266600741696
+      positionAbsolute:
+        x: 3342.2768847001666
+        y: -868.5266600741696
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}{{#1787318473672.text#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4-flash
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 65eca5aa-7448-499b-8ee3-b927d6669ee5
+          role: system
+          text: "你是“设备日志初步分析助手”。\n\n请仅根据用户提供的日志、测试数据或故障描述进行分析，不要编造日志中没有的信息，也不要把推测说成确定结论。\n\
+            \n请按以下格式回答：\n1. 日志摘要：设备、时间、状态、错误码\n2. 关键指标：列出异常指标，并注明数据来源\n3. 初步判断：正常、预警或疑似故障\n\
+            4. 可能原因：按可能性从高到低列出，并说明依据\n5. 建议排查：给出安全、可执行的检查步骤\n6. 信息缺口：列出还需要用户补充的数据\n\
+            \n如果日志中没有阈值，请明确说明“缺少判断阈值”，不要自行编造阈值。涉及人身或设备安全时，优先建议停机、断电或联系专业人员确认。\n乱码处理规则：\n\
+            - 如果上传文件出现乱码、�、BCE4、E4 A3 BA 等编码异常，必须明确写“日志编码异常，无法可靠分析”。\n- 不得根据乱码结构猜测中文字段、设备类型、运行状态或停机原因。\n\
+            - 只允许使用完全可辨识的字段进行分析；无法确认的字段写“未知”。\n- 如果温度、振动、错误码或状态字段无法可靠对应，禁止作出故障判断。\n\
+            - 不得把 PUMP-07 等设备编号直接解释为具体设备类型。\n停机原因与部件表述规则：\n- 当日志仅显示“自动停机”且未提供停机触发逻辑时，不得写“温度触发停机”“振动触发停机”等确定或倾向性结论。\n\
+            - 应改写为：“温度/振动超限与自动停机同时出现，但当前日志无法确认具体停机触发条件。”\n- 设备类型、结构和配置未提供时，不得默认存在冷却液、风扇、换热器、叶轮、轴承、联轴器等具体部件。\n\
+            - 对具体部件的检查建议，必须以“如设备手册确认配备该部件”为前提；否则使用“相关温度监测部件”“相关振动监测部件”“设备手册规定的检查项”等中性表述。\n\
+            候选原因表述规则：\n- 不要默认使用“按可能性从高到低排列”。\n- 在证据不足时，统一使用“候选原因”或“可能原因”，并明确说明“以下仅为基于当前日志的初步推测，需现场验证”。\n\
+            - 不得把候选原因写成确定结论，也不得声称某个原因一定比其他原因更可能。\n- 每个候选原因后说明对应的日志依据；如果日志没有相关依据，写“当前日志无法确认”。\n\
+            - 如果现有信息不足以判断具体原因，应明确写“无法根据当前日志确定具体故障原因”。最终表述规则：\n- 如果日志没有明确的预警、告警或严重程度分级标准，不得使用“预警”“严重故障”“重大故障”等等级词。\n\
+            - 此时只能写“疑似异常”或“疑似故障”，并注明“不进行等级判定”。\n- 仅出现“自动停机”时，不得确定是温度、振动或错误码触发了停机。\n\
+            - 应写明：“温度/振动超限与自动停机同时出现，但当前日志未提供停机触发逻辑，无法确认具体触发原因。”\n- 设备类型和结构未知时，不得默认存在轴承、叶轮、风扇、冷却液、联轴器等具体部件。\n\
+            - 只有设备手册确认存在某部件时，才能建议检查该部件；否则使用“相关监测部件”或“设备手册规定的检查项”。\n- 只有日志确实缺少阈值时，才写“缺少判断阈值”；日志已有阈值时，不要重复输出该提示。\n\
+            - 候选原因只能写成基于日志的初步推测，不得写成确定结论。措辞严谨规则：\n- 仅当日志明确写出“过热”“过载”等状态时，才可以使用对应词语。\n\
+            - 如果只是实测值超过阈值，应写“数值超过日志设定阈值”，不得直接等同于“过热”“严重异常”或“故障”。\n- 当原因无法由日志确认时，必须写“当前日志无法确认具体原因”。\n\
+            - 不得把超阈值与自动停机之间描述为确定的因果关系，除非日志明确提供停机触发逻辑。\n- 所有涉及断电、拆检、校准、试运行或恢复运行的建议，都必须注明由具备资质的专业人员依据设备手册和安全规程执行。乱码文件停止分析规则：\n\
+            - 一旦发现乱码、�、BCE4、E4 A3 BA，或字段标签无法可靠辨识，必须直接结论：\n  “日志编码异常，无法可靠分析。”\n- 此时不得输出“疑似故障”“疑似异常”或任何候选原因。\n\
+            - 不得解释任何数字对应的物理量，即使数字和单位看起来可辨识。\n- 不得提供针对具体设备部件的排查建议。\n- 只需说明：请重新导出或上传\
+            \ UTF-8 编码的可读日志。"
+        selected: true
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 86
+      id: llm
+      position:
+        x: 2995.3902314139036
+        y: -754.4113193463538
+      positionAbsolute:
+        x: 2995.3902314139036
+        y: -754.4113193463538
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    viewport:
+      x: -2159.9770517046977
+      y: 924.2617790571474
+      zoom: 0.8572440108367627
+  rag_pipeline_variables: []
